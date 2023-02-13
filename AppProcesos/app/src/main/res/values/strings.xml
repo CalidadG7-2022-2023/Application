@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="registro">REGISTRO</string>
+    <string name="nombre_de_usuario">Nombre de usuario</string>
+    <string name="correo_electr_nico">Correo electrónico</string>
+    <string name="todo">TODO</string>
+    <string name="contrase_a">Contraseña</string>
+    <string name="repetir_contrase_a">Repetir contraseña</string>
+    <string name="confirmar">Confirmar</string>
+    <string name="estilo">Estilo</string>
+    <string name="ELIGANOTES">ELIGANOTES</string>
+</resources>
