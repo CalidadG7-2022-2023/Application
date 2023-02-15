@@ -31,7 +31,6 @@ public class AdapterRecycler extends RecyclerView.Adapter <NotasHolder> {
         holder.getTitulo().setText(listNotasAdapter.get(position).getTitle());
     }
 
-
     @Override
     public int getItemCount() {
         return listNotasAdapter.size();
