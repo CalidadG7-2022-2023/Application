@@ -6,9 +6,6 @@ import android.view.View;
 import android.widget.Button;
 
 
-import android.widget.TextView;
-
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,37 +15,30 @@ import java.util.ArrayList;
 
 public class NotesView extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
     private ArrayList<Note> listaNotas;
+
     private String[] listaNombres;
+
     private String[] listaDescripcion;
-    private DbNotes dbnote;
-
-    private Button exit;
-    private Button newNote;
-
-
 
     RecyclerView.Adapter programAdapter;
+
     RecyclerView.LayoutManager layoutmanager;
 
-    // Esto lo que hace es meter texto plano, lo he hecho para testear que funciona, la idea es que en vez de esto se muestren las notas de la bbdd
+    // De aqui se cogen las imagenes, están repetidas por si en algun momento
+    // se quieren meter mas o algo. se pueden meter distintas
 
-    String[] programNameList = {"Nota1", "Nota2", "Nota3", "Nota4", "Nota5", "Nota6"};
-    String[] programDescriptionList = {"Nota1desc", "Nota2desc", "Nota3desc", "Nota4desc", "Nota5desc", "Nota6desc"};
-
-    // De aqui se cogen las imagenes, están repetidas por si en algun momento se quieren meter mas o algo. se pueden meter distintas
-
-    int[] programImages = {R.drawable.notarecortardef, R.drawable.notarecortardef,
-            R.drawable.notarecortardef, R.drawable.notarecortardef, R.drawable.notarecortardef,
-            R.drawable.notarecortardef};
-
-
-
+    int[] programImages = {R.drawable.notarecortardef,
+                            R.drawable.notarecortardef,
+                            R.drawable.notarecortardef,
+                            R.drawable.notarecortardef,
+                            R.drawable.notarecortardef,
+                            R.drawable.notarecortardef};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        RecyclerView recyclerView;
         setContentView(R.layout.activity_vernotas);
         setUpView();
 
@@ -64,12 +54,15 @@ public class NotesView extends AppCompatActivity {
 
         layoutmanager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutmanager);
-        programAdapter = new NotesViewAdapter(this, listaNombres, listaDescripcion, programImages);
+        programAdapter = new NotesViewAdapter(this, listaNombres,
+                                                listaDescripcion, programImages);
         recyclerView.setAdapter(programAdapter);
 
     }
 
     private void setUpView(){
+        Button exit;
+        Button newNote;
         exit = findViewById(R.id.exit);
         newNote = findViewById(R.id.newNote);
 
