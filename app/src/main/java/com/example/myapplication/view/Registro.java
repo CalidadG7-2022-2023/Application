@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,15 +13,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication.R;
+import com.example.myapplication.database.SQLiteTableUsers;
+import com.example.myapplication.database.EligaNotesDB;
+import com.example.myapplication.database.TableUsers;
+import com.example.myapplication.model.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Registro extends AppCompatActivity implements Serializable {
 
 
-    private ArrayList<User> listaNombresRegistrados;
+    private List<User> listaNombresRegistrados;
     private Button bttConfirm;
     private FloatingActionButton bttBack;
 
@@ -79,9 +84,9 @@ public class Registro extends AppCompatActivity implements Serializable {
     @SuppressLint("WrongViewCast")
     public void Register(View view) {
 
-        if (!checkDataBase("/data/data/com.example.myapplication/databases/UserData.db")) {
-            DbHelper dbHelper = new DbHelper(Registro.this);
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
+        if (!checkDataBase("/data/data/com.example.myapplication/databases/ELIGANOTES.db")) {
+            EligaNotesDB database = EligaNotesDB.getInstance(Registro.this);
+            SQLiteDatabase db = database.getWritableDatabase();
             if (db != null) {
                 Toast.makeText(this, "BASE DE DATOS CREADA", Toast.LENGTH_LONG).show();
             } else {
@@ -97,13 +102,13 @@ public class Registro extends AppCompatActivity implements Serializable {
 
         }*/
 
-        DbUsers dbUsers = new DbUsers(Registro.this);
+        TableUsers dbUsers = new SQLiteTableUsers(Registro.this);
 //
         boolean disponible = false;
         String nameUser = user.getText().toString();
         String passwordUser = password.getText().toString();
         String rePasswordUser = confirmPassword.getText().toString();
-        listaNombresRegistrados = dbUsers.mostrarNombreUsuarios();
+        listaNombresRegistrados = dbUsers.getUsersNames();
 
         if (listaNombresRegistrados.size() != 0) {
             for (int i = 0; i < listaNombresRegistrados.size(); i++) {
@@ -128,7 +133,10 @@ public class Registro extends AppCompatActivity implements Serializable {
                         resultado3.setText("CONTRASEÑAS NO COINCIDEN");
                         //break;
                     } else {
-                        long id = dbUsers.insertarDatos(nameUser, passwordUser, rePasswordUser);
+                        User user = new User();
+                        user.setName(nameUser);
+                        user.setPassword(passwordUser);
+                        long id = dbUsers.insertData(user);
 
                         if (id > 0) {
                             Toast.makeText(Registro.this, "REGISTRO GUARDADO", Toast.LENGTH_LONG).show();
@@ -147,7 +155,10 @@ public class Registro extends AppCompatActivity implements Serializable {
             }
         }
         if (listaNombresRegistrados.size() == 0) {
-            long id = dbUsers.insertarDatos(nameUser, passwordUser, rePasswordUser);
+            User user = new User();
+            user.setName(nameUser);
+            user.setPassword(passwordUser);
+            long id = dbUsers.insertData(user);
             if (id > 0) {
                 Toast.makeText(Registro.this, "REGISTRO GUARDADO", Toast.LENGTH_LONG).show();
                 limpiar();
