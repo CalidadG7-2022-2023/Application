@@ -76,22 +76,67 @@ public class Registro extends AppCompatActivity implements Serializable {
         return checkDB != null;
     }
 
+    private void createDataBase(){
+        DbHelper dbHelper = new DbHelper(Registro.this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        if (db != null) {
+            Toast.makeText(this, "BASE DE DATOS CREADA", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "ERROR AL CREAR LA BASE DE DATOS", Toast.LENGTH_LONG).show();
+        }
+
+    }
+    public boolean checkUsers(Boolean disponible, String nameUser){
+        for (int i = 0; i < listaNombresRegistrados.size(); i++) {
+            String nombre = listaNombresRegistrados.get(i).getName();
+            if (nombre.equals(nameUser)) {
+                resultado2.setText("NOMBRE DE USUARIO NO DISPONIBLE");
+                disponible = false;
+                limpiar();
+            } else {
+                disponible = true;
+
+            }
+        }
+        return disponible;
+    }
+
+    public void checkPassword(DbUsers dbUsers,String nameUser, String passwordUser, String rePasswordUser){
+        if (!passwordUser.equals(rePasswordUser)) {
+            Toast.makeText(Registro.this, "CONTRASEÑAS NO COINCIDEN", Toast.LENGTH_LONG).show();
+            resultado3.setText("CONTRASEÑAS NO COINCIDEN");
+            //break;
+        } else {
+            long id = dbUsers.insertarDatos(nameUser, passwordUser, rePasswordUser);
+
+            if (id > 0) {
+                Toast.makeText(Registro.this, "REGISTRO GUARDADO", Toast.LENGTH_LONG).show();
+                limpiar();
+                finish();
+            } else {
+                Toast.makeText(Registro.this, "ERROR AL GUARDAR REGISTRO", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    public void checkRegister(DbUsers dbUsers,String nameUser, String passwordUser, String rePasswordUser){
+        long id = dbUsers.insertarDatos(nameUser, passwordUser, rePasswordUser);
+            if (id > 0) {
+                Toast.makeText(Registro.this, "REGISTRO GUARDADO", Toast.LENGTH_LONG).show();
+                limpiar();
+                finish();
+            } else {
+                Toast.makeText(Registro.this, "ERROR AL GUARDAR REGISTRO", Toast.LENGTH_LONG).show();
+            }
+    }
     @SuppressLint("WrongViewCast")
     public void Register(View view) {
 
         if (!checkDataBase("/data/data/com.example.myapplication/databases/UserData.db")) {
-            DbHelper dbHelper = new DbHelper(Registro.this);
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
-            if (db != null) {
-                Toast.makeText(this, "BASE DE DATOS CREADA", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "ERROR AL CREAR LA BASE DE DATOS", Toast.LENGTH_LONG).show();
-            }
+            createDataBase();
         }
 
-
         DbUsers dbUsers = new DbUsers(Registro.this);
-//
         boolean disponible = false;
         String nameUser = user.getText().toString();
         String passwordUser = password.getText().toString();
@@ -99,23 +144,12 @@ public class Registro extends AppCompatActivity implements Serializable {
         listaNombresRegistrados = dbUsers.mostrarNombreUsuarios();
 
         if (listaNombresRegistrados.size() != 0) {
-            for (int i = 0; i < listaNombresRegistrados.size(); i++) {
-                String nombre = listaNombresRegistrados.get(i).getName();
-                if (nombre.equals(nameUser)) {
-//
-                    resultado2.setText("NOMBRE DE USUARIO NO DISPONIBLE");
-                    disponible = false;
-                    limpiar();
-                } else {
-//
-                    disponible = true;
-
-                }
-            }
+            disponible = checkUsers(disponible,nameUser);
             if (disponible) {
                 boolean b = !nameUser.isEmpty() && !passwordUser.isEmpty() && !rePasswordUser.isEmpty();
                 if (b) {
-                    if (!passwordUser.equals(rePasswordUser)) {
+                    checkPassword(dbUsers,nameUser,passwordUser,rePasswordUser);
+                /*    if (!passwordUser.equals(rePasswordUser)) {
                         Toast.makeText(Registro.this, "CONTRASEÑAS NO COINCIDEN", Toast.LENGTH_LONG).show();
                         resultado3.setText("CONTRASEÑAS NO COINCIDEN");
                         //break;
@@ -129,19 +163,20 @@ public class Registro extends AppCompatActivity implements Serializable {
                         } else {
                             Toast.makeText(Registro.this, "ERROR AL GUARDAR REGISTRO", Toast.LENGTH_LONG).show();
                         }
-                    }
+                    }*/
                 }
             }
         }
         if (listaNombresRegistrados.size() == 0) {
-            long id = dbUsers.insertarDatos(nameUser, passwordUser, rePasswordUser);
+            checkRegister(dbUsers,nameUser, passwordUser, rePasswordUser);
+            /*long id = dbUsers.insertarDatos(nameUser, passwordUser, rePasswordUser);
             if (id > 0) {
                 Toast.makeText(Registro.this, "REGISTRO GUARDADO", Toast.LENGTH_LONG).show();
                 limpiar();
                 finish();
             } else {
                 Toast.makeText(Registro.this, "ERROR AL GUARDAR REGISTRO", Toast.LENGTH_LONG).show();
-            }
+            }*/
         }
     }
         private void limpiar () {
