@@ -88,14 +88,7 @@ public class Registro extends AppCompatActivity implements Serializable {
                 Toast.makeText(this, "ERROR AL CREAR LA BASE DE DATOS", Toast.LENGTH_LONG).show();
             }
         }
-/*        DbHelper dbHelper = new DbHelper(Registro.this);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        if (db != null){
-            Toast.makeText(this, "BASE DE DATOS CREADA", Toast.LENGTH_LONG).show();
-        }else {
-            Toast.makeText(this, "ERROR AL CREAR LA BASE DE DATOS", Toast.LENGTH_LONG).show();
 
-        }*/
 
         DbUsers dbUsers = new DbUsers(Registro.this);
 //
@@ -109,15 +102,14 @@ public class Registro extends AppCompatActivity implements Serializable {
             for (int i = 0; i < listaNombresRegistrados.size(); i++) {
                 String nombre = listaNombresRegistrados.get(i).getName();
                 if (nombre.equals(nameUser)) {
-//                Toast.makeText(Registro.this, "EL NOMBRE DE USUARIO YA EXISTE", Toast.LENGTH_LONG).show();
+//
                     resultado2.setText("NOMBRE DE USUARIO NO DISPONIBLE");
                     disponible = false;
                     limpiar();
-                    //break;
                 } else {
-//                Toast.makeText(Registro.this, "NOMBRE DE USUARIO DISPONIBLE", Toast.LENGTH_SHORT).show();
+//
                     disponible = true;
-                    //resultado2.setText("NOMBRE DE USUARIO - DISPONIBLE");
+
                 }
             }
             if (disponible) {
@@ -133,11 +125,6 @@ public class Registro extends AppCompatActivity implements Serializable {
                         if (id > 0) {
                             Toast.makeText(Registro.this, "REGISTRO GUARDADO", Toast.LENGTH_LONG).show();
                             limpiar();
-                            /*try {
-                                wait(15);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }*/
                             finish();
                         } else {
                             Toast.makeText(Registro.this, "ERROR AL GUARDAR REGISTRO", Toast.LENGTH_LONG).show();
@@ -151,11 +138,6 @@ public class Registro extends AppCompatActivity implements Serializable {
             if (id > 0) {
                 Toast.makeText(Registro.this, "REGISTRO GUARDADO", Toast.LENGTH_LONG).show();
                 limpiar();
-                            /*try {
-                                wait(15);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }*/
                 finish();
             } else {
                 Toast.makeText(Registro.this, "ERROR AL GUARDAR REGISTRO", Toast.LENGTH_LONG).show();
@@ -166,8 +148,7 @@ public class Registro extends AppCompatActivity implements Serializable {
             user.setText("");
             password.setText("");
             confirmPassword.setText("");
-//        resultado3.setText("");
-//        resultado2.setText("");
+
         }
 }
 
