@@ -1,19 +1,22 @@
-package com.example.myapplication;
+package com.example.myapplication.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
 import android.view.View;
-import android.os.Bundle;
 import android.widget.Toast;
+
+import com.example.myapplication.R;
+import com.example.myapplication.database.SQLiteTableNotes;
+import com.example.myapplication.database.EligaNotesDB;
+import com.example.myapplication.database.TableNotes;
+import com.example.myapplication.model.Note;
 
 public class NotesMaker extends AppCompatActivity {
     private Button bttGuardar;
@@ -53,9 +56,9 @@ public class NotesMaker extends AppCompatActivity {
     @SuppressLint("WrongViewCast")
     public void MainNotesMaker(View view) {
 
-        if (!checkDataBase("/data/data/com.example.myapplication/databases/NotesData.db")) {
-            DbHelperNotes dbHelperNotes = new DbHelperNotes(NotesMaker.this);
-            SQLiteDatabase dbn = dbHelperNotes.getWritableDatabase();
+        if (!checkDataBase("/data/data/com.example.myapplication/databases/ELIGANOTES.db")) {
+            EligaNotesDB database = EligaNotesDB.getInstance(NotesMaker.this);
+            SQLiteDatabase dbn = database.getWritableDatabase();
             if (dbn != null) {
                 Toast.makeText(this, "BASE DE DATOS CREADA", Toast.LENGTH_LONG).show();
             } else {
@@ -63,13 +66,16 @@ public class NotesMaker extends AppCompatActivity {
             }
         }
 
-        DbNotes dbNotes = new DbNotes(NotesMaker.this);
+        TableNotes dbNotes = new SQLiteTableNotes(this);
 
         String titulo = title.getText().toString();
         String texto = text.getText().toString();
-        String nombre = MainActivity.user.getText().toString();
+        String nombre = MainActivity.getUserName().getText().toString();
 
-        long id = dbNotes.insertData(titulo, texto, nombre);
+        Note note = new Note();
+        note.setTitle(titulo);
+        note.setText(texto);
+        long id = dbNotes.insertData(note, nombre);
 
         if (id > 0) {
             Toast.makeText(NotesMaker.this, "NOTA GUARDADA", Toast.LENGTH_LONG).show();
