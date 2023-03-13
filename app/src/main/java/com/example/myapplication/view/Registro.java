@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import com.example.myapplication.R;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,15 +14,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication.database.EligaNotesDB;
+import com.example.myapplication.database.SQLiteTableUsers;
+import com.example.myapplication.database.TableUsers;
+import com.example.myapplication.model.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Registro extends AppCompatActivity implements Serializable {
 
 
-    private ArrayList<User> listaNombresRegistrados;
+    private List<User> listaNombresRegistrados;
     private Button bttConfirm;
     private FloatingActionButton bttBack;
 
@@ -101,7 +106,7 @@ public class Registro extends AppCompatActivity implements Serializable {
         return disponible;
     }
 
-    public void checkPassword(TableUsers dbUsers,String nameUser, String passwordUser, String rePasswordUser){
+    public void checkPassword(TableUsers dbUsers, String nameUser, String passwordUser, String rePasswordUser){
         if (!passwordUser.equals(rePasswordUser)) {
             Toast.makeText(Registro.this, "CONTRASEÑAS NO COINCIDEN", Toast.LENGTH_LONG).show();
             resultado3.setText("CONTRASEÑAS NO COINCIDEN");
@@ -142,7 +147,7 @@ public class Registro extends AppCompatActivity implements Serializable {
             createDataBase();
         }
 
-        TableUsers dbUsers = new TableUsers(Registro.this);
+        TableUsers dbUsers = new SQLiteTableUsers(Registro.this);
         boolean disponible = false;
         String nameUser = user.getText().toString();
         String passwordUser = password.getText().toString();
