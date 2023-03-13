@@ -77,8 +77,8 @@ public class Registro extends AppCompatActivity implements Serializable {
     }
 
     private void createDataBase(){
-        DbHelper dbHelper = new DbHelper(Registro.this);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        EligaNotesDB database = EligaNotesDB.getInstance(Registro.this);
+        SQLiteDatabase db = database.getWritableDatabase();
         if (db != null) {
             Toast.makeText(this, "BASE DE DATOS CREADA", Toast.LENGTH_LONG).show();
         } else {
@@ -101,13 +101,16 @@ public class Registro extends AppCompatActivity implements Serializable {
         return disponible;
     }
 
-    public void checkPassword(DbUsers dbUsers,String nameUser, String passwordUser, String rePasswordUser){
+    public void checkPassword(TableUsers dbUsers,String nameUser, String passwordUser, String rePasswordUser){
         if (!passwordUser.equals(rePasswordUser)) {
             Toast.makeText(Registro.this, "CONTRASEÑAS NO COINCIDEN", Toast.LENGTH_LONG).show();
             resultado3.setText("CONTRASEÑAS NO COINCIDEN");
             //break;
         } else {
-            long id = dbUsers.insertarDatos(nameUser, passwordUser, rePasswordUser);
+            User user = new User();
+            user.setName(nameUser);
+            user.setPassword(passwordUser);
+            long id = dbUsers.insertData(user);
 
             if (id > 0) {
                 Toast.makeText(Registro.this, "REGISTRO GUARDADO", Toast.LENGTH_LONG).show();
@@ -119,8 +122,11 @@ public class Registro extends AppCompatActivity implements Serializable {
         }
     }
 
-    public void checkRegister(DbUsers dbUsers,String nameUser, String passwordUser, String rePasswordUser){
-        long id = dbUsers.insertarDatos(nameUser, passwordUser, rePasswordUser);
+    public void checkRegister(TableUsers dbUsers,String nameUser, String passwordUser, String rePasswordUser){
+        User user = new User();
+        user.setName(nameUser);
+        user.setPassword(passwordUser);
+        long id = dbUsers.insertData(user);
             if (id > 0) {
                 Toast.makeText(Registro.this, "REGISTRO GUARDADO", Toast.LENGTH_LONG).show();
                 limpiar();
@@ -136,12 +142,12 @@ public class Registro extends AppCompatActivity implements Serializable {
             createDataBase();
         }
 
-        DbUsers dbUsers = new DbUsers(Registro.this);
+        TableUsers dbUsers = new TableUsers(Registro.this);
         boolean disponible = false;
         String nameUser = user.getText().toString();
         String passwordUser = password.getText().toString();
         String rePasswordUser = confirmPassword.getText().toString();
-        listaNombresRegistrados = dbUsers.mostrarNombreUsuarios();
+        listaNombresRegistrados = dbUsers.getUsersNames();
 
         if (listaNombresRegistrados.size() != 0) {
             disponible = checkUsers(disponible,nameUser);
