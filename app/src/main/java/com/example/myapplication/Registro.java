@@ -149,34 +149,12 @@ public class Registro extends AppCompatActivity implements Serializable {
                 boolean b = !nameUser.isEmpty() && !passwordUser.isEmpty() && !rePasswordUser.isEmpty();
                 if (b) {
                     checkPassword(dbUsers,nameUser,passwordUser,rePasswordUser);
-                /*    if (!passwordUser.equals(rePasswordUser)) {
-                        Toast.makeText(Registro.this, "CONTRASEÑAS NO COINCIDEN", Toast.LENGTH_LONG).show();
-                        resultado3.setText("CONTRASEÑAS NO COINCIDEN");
-                        //break;
-                    } else {
-                        long id = dbUsers.insertarDatos(nameUser, passwordUser, rePasswordUser);
-
-                        if (id > 0) {
-                            Toast.makeText(Registro.this, "REGISTRO GUARDADO", Toast.LENGTH_LONG).show();
-                            limpiar();
-                            finish();
-                        } else {
-                            Toast.makeText(Registro.this, "ERROR AL GUARDAR REGISTRO", Toast.LENGTH_LONG).show();
-                        }
-                    }*/
                 }
             }
         }
         if (listaNombresRegistrados.size() == 0) {
             checkRegister(dbUsers,nameUser, passwordUser, rePasswordUser);
-            /*long id = dbUsers.insertarDatos(nameUser, passwordUser, rePasswordUser);
-            if (id > 0) {
-                Toast.makeText(Registro.this, "REGISTRO GUARDADO", Toast.LENGTH_LONG).show();
-                limpiar();
-                finish();
-            } else {
-                Toast.makeText(Registro.this, "ERROR AL GUARDAR REGISTRO", Toast.LENGTH_LONG).show();
-            }*/
+
         }
     }
         private void limpiar () {
