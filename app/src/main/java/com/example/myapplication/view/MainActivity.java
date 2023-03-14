@@ -33,13 +33,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Cargar acciones
-        user = (EditText)findViewById(R.id.nomb_txt);
-        pass = (EditText)findViewById(R.id.pass_txt);
-        resultado = (TextView)findViewById(R.id.resultado);
+        user = findViewById(R.id.nomb_txt);
+        pass = findViewById(R.id.pass_txt);
+        resultado = findViewById(R.id.resultado);
 
     }
 
-    public void Register(View view){
+    public void register(View view){
         Intent i = new Intent(this, Registro.class);
         startActivity(i);
     }
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void Login(View view){
+    public void login(View view){
         //obtenermos la info de la base de datos
         TableUsers dbuser = new SQLiteTableUsers(this);
         listUser = dbuser.getUsers();

@@ -20,7 +20,9 @@ import com.example.myapplication.model.Note;
 
 public class NotesMaker extends AppCompatActivity {
     private Button bttGuardar;
+
     private EditText title;
+
     private EditText text;
 
     @Override
@@ -38,10 +40,11 @@ public class NotesMaker extends AppCompatActivity {
         bttGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainNotesMaker(view);
+                mainNotesMaker(view);
             }
         });
     }
+
     private boolean checkDataBase(String Database_path) {
         SQLiteDatabase checkDB = null;
         try {
@@ -54,7 +57,7 @@ public class NotesMaker extends AppCompatActivity {
     }
 
     @SuppressLint("WrongViewCast")
-    public void MainNotesMaker(View view) {
+    public void mainNotesMaker(View view) {
 
         if (!checkDataBase("/data/data/com.example.myapplication/databases/ELIGANOTES.db")) {
             EligaNotesDB database = EligaNotesDB.getInstance(NotesMaker.this);
@@ -80,11 +83,6 @@ public class NotesMaker extends AppCompatActivity {
         if (id > 0) {
             Toast.makeText(NotesMaker.this, "NOTA GUARDADA", Toast.LENGTH_LONG).show();
             clean();
-           /* try {
-                wait(15);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
             finish();
         } else {
             Toast.makeText(NotesMaker.this, "ERROR AL GUARDAR NOTA", Toast.LENGTH_LONG).show();

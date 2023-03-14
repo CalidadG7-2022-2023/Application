@@ -15,8 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterRecycler extends RecyclerView.Adapter <NotasHolder> {
-    private List<Note> listNotasAdapter =  new ArrayList<>();
-    private Context c;
+    private List<Note> listNotasAdapter;
 
     public AdapterRecycler(ArrayList<Note> lista) throws IllegalAccessException, InstantiationException {
         this.listNotasAdapter = lista;
