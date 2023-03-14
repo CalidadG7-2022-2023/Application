@@ -12,7 +12,7 @@ import java.util.List;
 
 public class SQLiteTableUsers implements TableUsers{
 
-    private EligaNotesDB database;
+    private final EligaNotesDB database;
 
     public SQLiteTableUsers(Context context) {
         this.database = EligaNotesDB.getInstance(context);
