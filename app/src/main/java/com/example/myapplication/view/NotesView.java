@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +10,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import com.example.myapplication.R;
+import com.example.myapplication.database.SQLiteTableNotes;
+import com.example.myapplication.database.TableNotes;
+import com.example.myapplication.model.Note;
+
+import java.util.List;
 
 
 public class NotesView extends AppCompatActivity {
 
-    private ArrayList<Note> listaNotas;
+    private List<Note> listaNotas;
 
     private String[] listaNombres;
 
@@ -42,8 +47,8 @@ public class NotesView extends AppCompatActivity {
         setContentView(R.layout.activity_vernotas);
         setUpView();
 
-        DbNotes dbnote = new DbNotes(this);
-        listaNotas = dbnote.obtenerNotas();
+        TableNotes dbnote = new SQLiteTableNotes(this);
+        listaNotas = dbnote.obtainNotes();
         listaNombres = new String[listaNotas.size()];
         listaDescripcion = new String[listaNotas.size()];
         obtenerListaNombresDescripcion(listaNotas);
@@ -83,7 +88,7 @@ public class NotesView extends AppCompatActivity {
         });
     }
 
-    private void obtenerListaNombresDescripcion(ArrayList<Note>listaNotas){
+    private void obtenerListaNombresDescripcion(List<Note>listaNotas){
         for(int i = 0; i < listaNotas.size(); i++){
             listaNombres[i] = listaNotas.get(i).getTitle() ;
             listaDescripcion[i] = listaNotas.get(i).getText();
@@ -91,7 +96,7 @@ public class NotesView extends AppCompatActivity {
         }
     }
 
-    public ArrayList<Note> getListaNotas() {
+    public List<Note> getListaNotas() {
         return listaNotas;
     }
     

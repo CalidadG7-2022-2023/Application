@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,15 +9,20 @@ import android.widget.EditText;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.example.myapplication.R;
+import com.example.myapplication.database.SQLiteTableUsers;
+import com.example.myapplication.database.TableUsers;
+import com.example.myapplication.model.User;
+
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText pass;
-    static EditText user;
+    private static EditText user;
     private TextView resultado;
-    private ArrayList<User> listUser;
+    private List<User> listUser;
 
 
     @SuppressLint("MissingInflatedId")
@@ -26,14 +31,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         //Cargar acciones
-        user = (EditText)findViewById(R.id.nomb_txt);
-        pass = (EditText)findViewById(R.id.pass_txt);
-        resultado = (TextView)findViewById(R.id.resultado);
+        user = findViewById(R.id.nomb_txt);
+        pass = findViewById(R.id.pass_txt);
+        resultado = findViewById(R.id.resultado);
 
     }
 
-    public void Register(View view){
+    public void register(View view){
         Intent i = new Intent(this, Registro.class);
         startActivity(i);
     }
@@ -43,10 +49,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void Login(View view){
+    public void login(View view){
         //obtenermos la info de la base de datos
-        DbUsers dbuser = new DbUsers(this);
-        listUser = dbuser.obtenerListaUser();
+        TableUsers dbuser = new SQLiteTableUsers(this);
+        listUser = dbuser.getUsers();
 
         //obtenemos la info del user
         String SUser = user.getText().toString();
@@ -82,6 +88,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
 
         }
+    }
+
+    public static EditText getUserName() {
+        return MainActivity.user;
     }
 
 

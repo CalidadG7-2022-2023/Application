@@ -1,23 +1,25 @@
-package com.example.myapplication;
+package com.example.myapplication.view;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.R;
+
 // Esto es para tener acceso a la vista custom de las notas con los iconos y eso, extiende el adapter del recycleview
 public class NotesViewAdapter extends RecyclerView.Adapter<NotesViewAdapter.ViewHolder>{
     Context context;
+
     String[] nombreNotas;
+
     String[] descripcionNotas;
+
     int[] imagenes;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
