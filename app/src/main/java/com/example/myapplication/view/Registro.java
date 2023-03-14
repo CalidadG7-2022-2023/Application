@@ -6,7 +6,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+
 import com.example.myapplication.R;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -27,13 +29,19 @@ public class Registro extends AppCompatActivity implements Serializable {
 
 
     private List<User> listaNombresRegistrados;
+
     private Button bttConfirm;
+
     private FloatingActionButton bttBack;
 
     private EditText user;
+
     private EditText password;
+
     private EditText confirmPassword;
+
     private TextView resultado2;
+
     private TextView resultado3;
 
     @Override
@@ -81,7 +89,7 @@ public class Registro extends AppCompatActivity implements Serializable {
         return checkDB != null;
     }
 
-    private void createDataBase(){
+    private void createDataBase() {
         EligaNotesDB database = EligaNotesDB.getInstance(Registro.this);
         SQLiteDatabase db = database.getWritableDatabase();
         if (db != null) {
@@ -91,7 +99,8 @@ public class Registro extends AppCompatActivity implements Serializable {
         }
 
     }
-    public boolean checkUsers(Boolean disponible, String nameUser){
+
+    public boolean checkUsers(Boolean disponible, String nameUser) {
         for (int i = 0; i < listaNombresRegistrados.size(); i++) {
             String nombre = listaNombresRegistrados.get(i).getName();
             if (nombre.equals(nameUser)) {
@@ -106,7 +115,7 @@ public class Registro extends AppCompatActivity implements Serializable {
         return disponible;
     }
 
-    public void checkPassword(TableUsers dbUsers, String nameUser, String passwordUser, String rePasswordUser){
+    public void checkPassword(TableUsers dbUsers, String nameUser, String passwordUser, String rePasswordUser) {
         if (!passwordUser.equals(rePasswordUser)) {
             Toast.makeText(Registro.this, "CONTRASEÑAS NO COINCIDEN", Toast.LENGTH_LONG).show();
             resultado3.setText("CONTRASEÑAS NO COINCIDEN");
@@ -127,19 +136,20 @@ public class Registro extends AppCompatActivity implements Serializable {
         }
     }
 
-    public void checkRegister(TableUsers dbUsers,String nameUser, String passwordUser, String rePasswordUser){
+    public void checkRegister(TableUsers dbUsers, String nameUser, String passwordUser, String rePasswordUser) {
         User user = new User();
         user.setName(nameUser);
         user.setPassword(passwordUser);
         long id = dbUsers.insertData(user);
-            if (id > 0) {
-                Toast.makeText(Registro.this, "REGISTRO GUARDADO", Toast.LENGTH_LONG).show();
-                limpiar();
-                finish();
-            } else {
-                Toast.makeText(Registro.this, "ERROR AL GUARDAR REGISTRO", Toast.LENGTH_LONG).show();
-            }
+        if (id > 0) {
+            Toast.makeText(Registro.this, "REGISTRO GUARDADO", Toast.LENGTH_LONG).show();
+            limpiar();
+            finish();
+        } else {
+            Toast.makeText(Registro.this, "ERROR AL GUARDAR REGISTRO", Toast.LENGTH_LONG).show();
+        }
     }
+
     @SuppressLint("WrongViewCast")
     public void Register(View view) {
 
@@ -155,24 +165,25 @@ public class Registro extends AppCompatActivity implements Serializable {
         listaNombresRegistrados = dbUsers.getUsersNames();
 
         if (listaNombresRegistrados.size() != 0) {
-            disponible = checkUsers(disponible,nameUser);
+            disponible = checkUsers(disponible, nameUser);
             if (disponible) {
                 boolean b = !nameUser.isEmpty() && !passwordUser.isEmpty() && !rePasswordUser.isEmpty();
                 if (b) {
-                    checkPassword(dbUsers,nameUser,passwordUser,rePasswordUser);
+                    checkPassword(dbUsers, nameUser, passwordUser, rePasswordUser);
                 }
             }
         }
         if (listaNombresRegistrados.size() == 0) {
-            checkRegister(dbUsers,nameUser, passwordUser, rePasswordUser);
+            checkRegister(dbUsers, nameUser, passwordUser, rePasswordUser);
 
         }
     }
-        private void limpiar () {
-            user.setText("");
-            password.setText("");
-            confirmPassword.setText("");
 
-        }
+    private void limpiar() {
+        user.setText("");
+        password.setText("");
+        confirmPassword.setText("");
+
+    }
 }
 

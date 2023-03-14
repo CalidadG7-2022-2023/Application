@@ -8,10 +8,13 @@ import androidx.annotation.Nullable;
 
 public class EligaNotesDB extends SQLiteOpenHelper {
 
-    private static int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 3;
+
     private static final String DATABASE_NAME = "ELIGANOTES.db";
-    private static String USERS_TABLE = "Users";
-    private static String NOTES_TABLE = "Notes";
+
+    private static final String USERS_TABLE = "Users";
+
+    private static final String NOTES_TABLE = "Notes";
 
     private static EligaNotesDB database;
 
@@ -38,7 +41,7 @@ public class EligaNotesDB extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    private void createUsersTable(SQLiteDatabase sqLiteDatabase){
+    private void createUsersTable(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE " + USERS_TABLE + "(" +
                 "name TEXT PRIMARY KEY," +
                 "password TEXT NOT NULL)");

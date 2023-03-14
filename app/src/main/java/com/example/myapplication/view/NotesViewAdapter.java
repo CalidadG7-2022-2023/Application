@@ -15,8 +15,11 @@ import com.example.myapplication.R;
 // Esto es para tener acceso a la vista custom de las notas con los iconos y eso, extiende el adapter del recycleview
 public class NotesViewAdapter extends RecyclerView.Adapter<NotesViewAdapter.ViewHolder>{
     Context context;
+
     String[] nombreNotas;
+
     String[] descripcionNotas;
+
     int[] imagenes;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class SQLiteTableNotes implements TableNotes{
 
-    private EligaNotesDB database;
+    private final EligaNotesDB database;
 
     public SQLiteTableNotes(Context context) {
         this.database = EligaNotesDB.getInstance(context);
