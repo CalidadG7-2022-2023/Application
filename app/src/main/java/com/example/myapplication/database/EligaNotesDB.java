@@ -9,8 +9,11 @@ import androidx.annotation.Nullable;
 public class EligaNotesDB extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 3;
+
     private static final String DATABASE_NAME = "ELIGANOTES.db";
+
     private static final String USERS_TABLE = "Users";
+
     private static final String NOTES_TABLE = "Notes";
 
     private static EligaNotesDB database;
