@@ -126,4 +126,37 @@ public class SQLiteTableUsersTest {
 
     }
 
+    @Test
+    public void getUsersTest() {
+
+        TableUsers db = mock(SQLiteTableUsers.class);
+        List<User> expectedUserList = new ArrayList<>();
+        for (int i = 1; i < 5; i++) expectedUserList.add(this.users[i]);
+
+        for (int i = 0; i < expectedUserList.size(); i++) db.insertData(expectedUserList.get(i));
+
+        when(db.getUsers()).thenReturn(expectedUserList);
+
+        Assert.assertEquals(db.getUsers(), expectedUserList);
+
+    }
+
+    @Test
+    public void getUsersWithExistingUsernameTest() {
+
+        TableUsers db = mock(SQLiteTableUsers.class);
+        List<User> expectedUserList = new ArrayList<>();
+        for (int i = 1; i < 5; i++) expectedUserList.add(this.users[i]);
+
+        List<User> userList = expectedUserList.subList(0, expectedUserList.size());
+        userList.add(this.users[7]);
+
+        for (int i = 0; i < userList.size(); i++) db.insertData(userList.get(i));
+
+        when(db.getUsers()).thenReturn(expectedUserList);
+
+        Assert.assertEquals(db.getUsers(), expectedUserList);
+
+    }
+
 }
