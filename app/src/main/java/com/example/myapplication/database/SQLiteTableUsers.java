@@ -60,4 +60,11 @@ public class SQLiteTableUsers implements TableUsers{
 
     }
 
+    public void clearData() {
+        SQLiteDatabase db = database.getWritableDatabase();
+        db.execSQL("DROP TABLE " + database.getUsersTable());
+        db.execSQL("CREATE TABLE " + database.getUsersTable() + "(" +
+                "name TEXT PRIMARY KEY," +
+                "password TEXT NOT NULL)");
+    }
 }
