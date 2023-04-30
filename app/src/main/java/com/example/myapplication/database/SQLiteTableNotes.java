@@ -60,4 +60,13 @@ public class SQLiteTableNotes implements TableNotes{
 
         return notesList;
     }
+
+    public void clearData() {
+        SQLiteDatabase db = database.getWritableDatabase();
+        db.execSQL("DROP TABLE " + database.getNotesTable());
+        db.execSQL("CREATE TABLE " + database.getNotesTable() + "(" +
+                "title TEXT PRIMARY KEY," +
+                "text TEXT NOT NULL," +
+                "name TEXT NOT NULL)");
+    }
 }
