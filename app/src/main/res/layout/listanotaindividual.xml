@@ -23,11 +23,19 @@
             android:text="Titulo de nota"
             android:textSize="20sp"
             android:id="@+id/textView1"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Descripcion de nota"
             android:textSize="20sp"
             android:id="@+id/textView4"/>
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#EA1414"
+            android:text="Borrar" />
     </LinearLayout>
 </LinearLayout>
