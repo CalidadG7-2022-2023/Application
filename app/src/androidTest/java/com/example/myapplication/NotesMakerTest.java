@@ -21,7 +21,7 @@ public class NotesMakerTest {
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void testCrearNotas() {
+    public void testCreateNote() {
         onView(withId(R.id.nomb_txt)).perform(typeText("Federico"));
         onView(withId(R.id.pass_txt)).perform(typeText("1234"));
         onView(withId(R.id.button)).perform(click());

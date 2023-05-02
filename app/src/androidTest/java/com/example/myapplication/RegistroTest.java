@@ -22,7 +22,7 @@ public class RegistroTest {
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void testRegistroUsuario() {
+    public void testUserRegister() {
         onView(withId(R.id.button2)).perform(click());
         onView(withId(R.id.txtUser)).perform(typeText("Manolo"));
         onView(withId(R.id.txtPassword)).perform(typeText("1234"));
