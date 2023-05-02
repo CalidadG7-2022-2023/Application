@@ -67,4 +67,21 @@ public class SQLiteTableUsers implements TableUsers{
                 "name TEXT PRIMARY KEY," +
                 "password TEXT NOT NULL)");
     }
+
+    public boolean existsUser(User user) {
+        SQLiteDatabase db = database.getWritableDatabase();
+        String[] args = new String[] {user.getName()};
+        Cursor cursor = db.rawQuery("SELECT * FROM " +  database.getUsersTable()
+                + " WHERE name = ?", args);
+        return cursor.moveToFirst();
+    }
+
+    public User obtainUserById(String name) {
+        SQLiteDatabase db = database.getWritableDatabase();
+        String[] args = new String[] {name};
+        Cursor cursor = db.rawQuery("SELECT * FROM " +  database.getUsersTable()
+                + " WHERE name = ?", args);
+        cursor.moveToFirst();
+        return new User(cursor.getString(0), cursor.getString(1), cursor.getString(1));
+    }
 }
