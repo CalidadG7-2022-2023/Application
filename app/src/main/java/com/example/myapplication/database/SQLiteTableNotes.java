@@ -77,4 +77,13 @@ public class SQLiteTableNotes implements TableNotes{
                 + " WHERE title = ?", args);
         return cursor.moveToFirst();
     }
+
+    public Note obtainNoteById(String title) {
+        SQLiteDatabase db = database.getWritableDatabase();
+        String[] args = new String[] {title};
+        Cursor cursor = db.rawQuery("SELECT * FROM " +  database.getNotesTable()
+                + " WHERE title = ?", args);
+        cursor.moveToFirst();
+        return new Note(cursor.getString(0), cursor.getString(1));
+    }
 }

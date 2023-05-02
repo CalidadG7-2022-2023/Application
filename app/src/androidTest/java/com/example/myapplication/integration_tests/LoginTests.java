@@ -9,6 +9,9 @@ import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import android.content.Context;
 import com.example.myapplication.R;
 import androidx.test.InstrumentationRegistry;
@@ -76,15 +79,20 @@ public class LoginTests {
 
         createDataBase();
 
-        // Ingresar las credenciales del usuario
-        onView(withId(R.id.nomb_txt)).perform(typeText("User1"),closeSoftKeyboard());
-        onView(withId(R.id.pass_txt)).perform(typeText("pwd1"), closeSoftKeyboard());
-        // Hacer clic en el botón de inicio de sesión
+        //Log in data
+        User newUser = new User("User1", "pwd1", "pwd1");
+        onView(withId(R.id.nomb_txt)).perform(typeText(newUser.getName()),closeSoftKeyboard());
+        onView(withId(R.id.pass_txt)).perform(typeText(newUser.getPassword()), closeSoftKeyboard());
+        assertTrue(this.tableUsers.existsUser(newUser));
+
+        //Send data to the system
         onView(withId(R.id.button)).perform(click());
 
-        //Comprobamos si un elemento de la siguiente pantalla está activo, una vez hemos hecho login
+        //Check new element is displayed after (screen changed)
         onView(withId(R.id.listanotas)).check(matches(isEnabled()));
 
+        //Check DB still stores newUser
+        assertTrue(this.tableUsers.existsUser(newUser));
         deleteData();
     }
     @Test
@@ -92,14 +100,21 @@ public class LoginTests {
 
         createDataBase();
 
-        // Ingresar las credenciales del usuario
-        onView(withId(R.id.nomb_txt)).perform(typeText("User8"), closeSoftKeyboard());
-        onView(withId(R.id.pass_txt)).perform(typeText("pwd8"), closeSoftKeyboard());
-        // Hacer clic en el botón de inicio de sesión
+        //Log in data
+        User newUser = new User("User8", "pwd8", "pwd8");
+        assertFalse(this.tableUsers.existsUser(newUser));
+        onView(withId(R.id.nomb_txt)).perform(typeText(newUser.getName()), closeSoftKeyboard());
+        onView(withId(R.id.pass_txt)).perform(typeText(newUser.getPassword()), closeSoftKeyboard());
+        assertFalse(this.tableUsers.existsUser(newUser));
+
+        //Send data to the system
         onView(withId(R.id.button)).perform(click());
 
-        //Comprobamos si sigue activo el botón después de hacer login
+        //Check old element is displayed (screen not changed)
         onView(withId(R.id.button)).check(matches(isEnabled()));
+
+        //Check DB doesn't store newUser
+        assertFalse(this.tableUsers.existsUser(newUser));
 
         deleteData();
     }

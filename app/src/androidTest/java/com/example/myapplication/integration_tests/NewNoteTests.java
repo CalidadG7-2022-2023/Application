@@ -4,7 +4,10 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -20,6 +23,7 @@ import com.example.myapplication.database.SQLiteTableNotes;
 import com.example.myapplication.database.SQLiteTableUsers;
 import com.example.myapplication.model.Note;
 import com.example.myapplication.model.User;
+import com.example.myapplication.view.MainActivity;
 import com.example.myapplication.view.NotesMaker;
 
 import org.junit.Rule;
@@ -30,7 +34,9 @@ import org.junit.runner.RunWith;
 public class NewNoteTests {
 
     @Rule
-    public ActivityTestRule<NotesMaker> mActivityRule = new ActivityTestRule<>(NotesMaker.class);
+    public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
+    @Rule
+    public ActivityTestRule<NotesMaker> notesMakerActivityTestRule = new ActivityTestRule<>(NotesMaker.class);
     private EligaNotesDB eligaNotesDB;
     private SQLiteTableUsers tableUsers;
     private Context context;
@@ -61,25 +67,51 @@ public class NewNoteTests {
     @Test
     public void testBadNote() {
         createDataBaseData();
+
+        //Check note exists previously
         assertTrue(this.tableNotes.existsNote(this.note));
-        onView(withId(R.id.txtTitle)).perform(typeText("Title1"),closeSoftKeyboard());
-        onView(withId(R.id.txtText)).perform(typeText("Description1"),closeSoftKeyboard());
+
+        //Log in
+        User newUser = new User("User1", "pwd1", "pwd1");
+        onView(withId(R.id.nomb_txt)).perform(typeText(newUser.getName()),closeSoftKeyboard());
+        onView(withId(R.id.pass_txt)).perform(typeText(newUser.getPassword()), closeSoftKeyboard());
+        assertTrue(this.tableUsers.existsUser(newUser));
+        onView(withId(R.id.button)).perform(click());
+
+        //Insert newNote with duplicated Primary Key and different description
+        onView(withId(R.id.newNote)).perform(click());
+        Note newNote = new Note("Title1", "Description2");
+        onView(withId(R.id.txtTitle)).perform(typeText(newNote.getTitle()),closeSoftKeyboard());
+        onView(withId(R.id.txtText)).perform(typeText(newNote.getText()),closeSoftKeyboard());
         onView(withId(R.id.bttGuardar)).perform(click());
-        // Check in DB Note1 doesn't exist
-        assertFalse(this.tableNotes.existsNote(this.note));
+        onView(withId(R.id.bttGuardar)).check(matches(isEnabled()));
+        assertTrue(this.tableNotes.existsNote(this.note));
+
+        //Check old note is still stored in DB
+        Note dbNote = this.tableNotes.obtainNoteById(this.note.getTitle());
+        assertEquals(this.note.getTitle(), dbNote.getTitle());
+        assertEquals(this.note.getText(), dbNote.getText());
         deleteData();
     }
 
     @Test
     public void testNote() {
         createDataBaseData();
+
+        //Log in
+        User newUser = new User("User1", "pwd1", "pwd1");
+        onView(withId(R.id.nomb_txt)).perform(typeText(newUser.getName()),closeSoftKeyboard());
+        onView(withId(R.id.pass_txt)).perform(typeText(newUser.getPassword()), closeSoftKeyboard());
+        assertTrue(this.tableUsers.existsUser(newUser));
+        onView(withId(R.id.button)).perform(click());
+        onView(withId(R.id.newNote)).perform(click());
+
+        //Insert newNote
         Note newNote = new Note("Title2", "Description2");
         assertFalse(this.tableNotes.existsNote(newNote));
         onView(withId(R.id.txtTitle)).perform(typeText(newNote.getTitle()),closeSoftKeyboard());
         onView(withId(R.id.txtText)).perform(typeText(newNote.getText()),closeSoftKeyboard());
         onView(withId(R.id.bttGuardar)).perform(click());
-        assertTrue(mActivityRule.getActivity().isFinishing());
-        // Check in DB User2 exists
         assertTrue(this.tableNotes.existsNote(newNote));
         deleteData();
     }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.myapplication.model.Note;
 import com.example.myapplication.model.User;
 
 import java.util.ArrayList;
@@ -74,5 +75,14 @@ public class SQLiteTableUsers implements TableUsers{
         Cursor cursor = db.rawQuery("SELECT * FROM " +  database.getUsersTable()
                 + " WHERE name = ?", args);
         return cursor.moveToFirst();
+    }
+
+    public User obtainUserById(String name) {
+        SQLiteDatabase db = database.getWritableDatabase();
+        String[] args = new String[] {name};
+        Cursor cursor = db.rawQuery("SELECT * FROM " +  database.getUsersTable()
+                + " WHERE name = ?", args);
+        cursor.moveToFirst();
+        return new User(cursor.getString(0), cursor.getString(1), cursor.getString(1));
     }
 }

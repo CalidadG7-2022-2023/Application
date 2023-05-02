@@ -6,6 +6,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -62,13 +63,23 @@ public class RegisterActivityTest {
     @Test
     public void testBadRegister(){
         createDataBaseData();
+        //Check user exists previously
         assertTrue(this.tableUsers.existsUser(this.user));
+
+        //Insert data
         onView(withId(R.id.txtUser)).perform(typeText("User1"));
-        onView(withId(R.id.txtPassword)).perform(typeText("pwd1"),closeSoftKeyboard());
-        onView(withId(R.id.txtConfirmPassword)).perform(typeText("pwd1"), closeSoftKeyboard());
+        onView(withId(R.id.txtPassword)).perform(typeText("pwd100"),closeSoftKeyboard());
+        onView(withId(R.id.txtConfirmPassword)).perform(typeText("pwd100"), closeSoftKeyboard());
         onView(withId(R.id.bttconfirm)).perform(click());
-        // Check in DB User1 doesn't exist
+
+        //Check user still exists and it hasn't been modified
         assertTrue(this.tableUsers.existsUser(this.user));
+        User dbUser = this.tableUsers.obtainUserById(this.user.getName());
+
+        assertEquals(this.user.getName(), dbUser.getName());
+        assertEquals(this.user.getPassword(), dbUser.getPassword());
+        assertEquals(this.user.getRepassword(), dbUser.getRepassword());
+
         deleteData();
     }
 
@@ -76,13 +87,18 @@ public class RegisterActivityTest {
     public void testRegister() {
         createDataBaseData();
         User newUser = new User("User2", "pwd2", "pwd2");
+
+        //Check user doesn't exist previously
         assertFalse(this.tableUsers.existsUser(newUser));
         onView(withId(R.id.txtUser)).perform(typeText(newUser.getName()));
         onView(withId(R.id.txtPassword)).perform(typeText(newUser.getPassword()),closeSoftKeyboard());
         onView(withId(R.id.txtConfirmPassword)).perform(typeText(newUser.getRepassword()), closeSoftKeyboard());
         onView(withId(R.id.bttconfirm)).perform(click());
+
+        //Check Activity ended
         assertTrue(mActivityRule.getActivity().isFinishing());
-        // Check in DB User2 exists
+
+        //Check new user is stored in DB
         assertTrue(this.tableUsers.existsUser(newUser));
         deleteData();
     }
