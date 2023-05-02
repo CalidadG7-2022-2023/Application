@@ -97,7 +97,7 @@ public class LoginTests {
         deleteData();
     }
     @Test
-    public void testLoginInCorrect() {
+    public void testLoginIncorrect() {
 
         createDataBase();
 
