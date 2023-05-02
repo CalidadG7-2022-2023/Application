@@ -69,4 +69,12 @@ public class SQLiteTableNotes implements TableNotes{
                 "text TEXT NOT NULL," +
                 "name TEXT NOT NULL)");
     }
+
+    public boolean existsNote(Note note) {
+        SQLiteDatabase db = database.getWritableDatabase();
+        String[] args = new String[] {note.getTitle()};
+        Cursor cursor = db.rawQuery("SELECT * FROM " +  database.getNotesTable()
+                + " WHERE title = ?", args);
+        return cursor.moveToFirst();
+    }
 }
