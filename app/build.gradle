@@ -5,7 +5,7 @@ plugins {
 android {
     namespace 'com.example.myapplication'
     compileSdk 32
-
+    buildToolsVersion '23.0.1'
     defaultConfig {
         applicationId "com.example.myapplication"
         minSdk 21
@@ -47,6 +47,4 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
     implementation 'androidx.room:room-runtime:2.4.2'
     testImplementation "androidx.arch.core:core-testing:2.1.0"
-
 }
-

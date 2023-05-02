@@ -10,6 +10,7 @@ public class Note {
     }
 
     public Note() {
+
     }
 
     public String getTitle() {
