@@ -1,12 +1,10 @@
-package com.example.myapplication.interface_tests;
+package com.example.myapplication.integration_tests;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
-import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import androidx.test.espresso.UiController;
@@ -32,7 +30,6 @@ import com.example.myapplication.database.SQLiteTableUsers;
 import com.example.myapplication.model.Note;
 import com.example.myapplication.model.User;
 import com.example.myapplication.view.MainActivity;
-import com.example.myapplication.view.NotesMaker;
 
 import org.hamcrest.Matcher;
 import org.junit.Rule;
@@ -44,8 +41,6 @@ public class deleteNoteTests {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
-    @Rule
-    public ActivityTestRule<NotesMaker> notesMakerActivityTestRule = new ActivityTestRule<>(NotesMaker.class);
     private EligaNotesDB eligaNotesDB;
     private SQLiteTableUsers tableUsers;
     private Context context;
