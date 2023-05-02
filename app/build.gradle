@@ -26,6 +26,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    testOptions {
+        unitTests.includeAndroidResources  = true
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -38,12 +42,12 @@ dependencies {
     //androidTestImplementation 'com.android.support.test:runner:1.0.2'
 
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    // Espresso
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
-
-
     implementation 'androidx.room:room-runtime:2.4.2'
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation 'org.mockito:mockito-core:3.10.0'
+    androidTestImplementation 'org.mockito:mockito-android:3.10.0'
 
 }
