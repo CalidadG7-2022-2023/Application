@@ -14,8 +14,9 @@ import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
 import com.example.myapplication.R;
-import androidx.test.InstrumentationRegistry;
+
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.myapplication.database.EligaNotesDB;
@@ -47,7 +48,7 @@ public class LoginTests {
 
 
     public void createDataBase() {
-        this.context = InstrumentationRegistry.getTargetContext();
+        this.context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
         this.eligaNotesDB = EligaNotesDB.getInstance(this.context);
         this.tableUsers = new SQLiteTableUsers(this.context);

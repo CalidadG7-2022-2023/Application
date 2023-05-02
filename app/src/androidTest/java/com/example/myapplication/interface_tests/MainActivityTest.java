@@ -10,9 +10,9 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import android.content.Context;
 
-import androidx.test.InstrumentationRegistry;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.myapplication.R;
@@ -36,7 +36,7 @@ public class MainActivityTest {
 
 
     private void createUser() {
-        this.context = InstrumentationRegistry.getTargetContext();
+        this.context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
         this.eligaNotesDB = EligaNotesDB.getInstance(this.context);
         this.tableUsers = new SQLiteTableUsers(this.context);
@@ -50,7 +50,7 @@ public class MainActivityTest {
     @Test
     public void testLoginUser() {
         createUser();
-        onView(ViewMatchers.withId(R.id.nomb_txt)).perform(typeText("Federico"));
+        onView(ViewMatchers.withId(R.id.nomb_txt)).perform(typeText("Federico"), closeSoftKeyboard());
         onView(withId(R.id.pass_txt)).perform(typeText("1234"), closeSoftKeyboard());
         onView(withId(R.id.button)).perform(click());
         onView(withId(R.id.listanotas)).check(matches(isCompletelyDisplayed()));

@@ -12,8 +12,8 @@ import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
 
-import androidx.test.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.myapplication.R;
@@ -41,7 +41,7 @@ public class RegisterActivityTest {
     private Note note;
 
     private void createDataBaseData() {
-        this.context = InstrumentationRegistry.getTargetContext();
+        this.context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
         this.eligaNotesDB = EligaNotesDB.getInstance(this.context);
         this.tableUsers = new SQLiteTableUsers(this.context);
@@ -67,7 +67,7 @@ public class RegisterActivityTest {
         assertTrue(this.tableUsers.existsUser(this.user));
 
         //Insert data
-        onView(withId(R.id.txtUser)).perform(typeText("User1"));
+        onView(withId(R.id.txtUser)).perform(typeText("User1"), closeSoftKeyboard());
         onView(withId(R.id.txtPassword)).perform(typeText("pwd100"),closeSoftKeyboard());
         onView(withId(R.id.txtConfirmPassword)).perform(typeText("pwd100"), closeSoftKeyboard());
         onView(withId(R.id.bttconfirm)).perform(click());
@@ -90,7 +90,7 @@ public class RegisterActivityTest {
 
         //Check user doesn't exist previously
         assertFalse(this.tableUsers.existsUser(newUser));
-        onView(withId(R.id.txtUser)).perform(typeText(newUser.getName()));
+        onView(withId(R.id.txtUser)).perform(typeText(newUser.getName()), closeSoftKeyboard());
         onView(withId(R.id.txtPassword)).perform(typeText(newUser.getPassword()),closeSoftKeyboard());
         onView(withId(R.id.txtConfirmPassword)).perform(typeText(newUser.getRepassword()), closeSoftKeyboard());
         onView(withId(R.id.bttconfirm)).perform(click());

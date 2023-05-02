@@ -10,9 +10,9 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import android.content.Context;
 
-import androidx.test.InstrumentationRegistry;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.myapplication.R;
@@ -34,7 +34,7 @@ public class RegistroTest {
     private SQLiteTableUsers tableUsers;
 
     private void createDB() {
-        this.context = InstrumentationRegistry.getTargetContext();
+        this.context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
         this.eligaNotesDB = EligaNotesDB.getInstance(this.context);
         this.tableUsers = new SQLiteTableUsers(this.context);
@@ -47,7 +47,7 @@ public class RegistroTest {
     public void testUserRegister() {
         createDB();
         onView(ViewMatchers.withId(R.id.button2)).perform(click());
-        onView(withId(R.id.txtUser)).perform(typeText("Manolo"));
+        onView(withId(R.id.txtUser)).perform(typeText("Manolo"), closeSoftKeyboard());
         onView(withId(R.id.txtPassword)).perform(typeText("1234"), closeSoftKeyboard());
         onView(withId(R.id.txtConfirmPassword)).perform(typeText("1234"), closeSoftKeyboard());
         onView(withId(R.id.bttconfirm)).perform(click());

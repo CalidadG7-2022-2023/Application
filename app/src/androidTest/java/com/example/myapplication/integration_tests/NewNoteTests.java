@@ -13,8 +13,8 @@ import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
 
-import androidx.test.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.myapplication.R;
@@ -35,8 +35,7 @@ public class NewNoteTests {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
-    @Rule
-    public ActivityTestRule<NotesMaker> notesMakerActivityTestRule = new ActivityTestRule<>(NotesMaker.class);
+
     private EligaNotesDB eligaNotesDB;
     private SQLiteTableUsers tableUsers;
     private Context context;
@@ -45,7 +44,7 @@ public class NewNoteTests {
     private Note note;
 
     private void createDataBaseData() {
-        this.context = InstrumentationRegistry.getTargetContext();
+        this.context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
         this.eligaNotesDB = EligaNotesDB.getInstance(this.context);
         this.tableUsers = new SQLiteTableUsers(this.context);
