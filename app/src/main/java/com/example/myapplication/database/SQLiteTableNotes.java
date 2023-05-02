@@ -60,4 +60,30 @@ public class SQLiteTableNotes implements TableNotes{
 
         return notesList;
     }
+
+    public void clearData() {
+        SQLiteDatabase db = database.getWritableDatabase();
+        db.execSQL("DROP TABLE " + database.getNotesTable());
+        db.execSQL("CREATE TABLE " + database.getNotesTable() + "(" +
+                "title TEXT PRIMARY KEY," +
+                "text TEXT NOT NULL," +
+                "name TEXT NOT NULL)");
+    }
+
+    public boolean existsNote(Note note) {
+        SQLiteDatabase db = database.getWritableDatabase();
+        String[] args = new String[] {note.getTitle()};
+        Cursor cursor = db.rawQuery("SELECT * FROM " +  database.getNotesTable()
+                + " WHERE title = ?", args);
+        return cursor.moveToFirst();
+    }
+
+    public Note obtainNoteById(String title) {
+        SQLiteDatabase db = database.getWritableDatabase();
+        String[] args = new String[] {title};
+        Cursor cursor = db.rawQuery("SELECT * FROM " +  database.getNotesTable()
+                + " WHERE title = ?", args);
+        cursor.moveToFirst();
+        return new Note(cursor.getString(0), cursor.getString(1));
+    }
 }

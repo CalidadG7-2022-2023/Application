@@ -5,6 +5,16 @@ public class User {
     private String password;
     private String repassword;
 
+    public User(String name, String password, String repassword) {
+        this.name = name;
+        this.password = password;
+        this.repassword = repassword;
+    }
+
+    public User() {
+
+    }
+
     public String getName() {
         return name;
     }
