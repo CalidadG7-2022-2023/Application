@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.myapplication.model.Note;
 import com.example.myapplication.model.User;
 
 import java.util.ArrayList;

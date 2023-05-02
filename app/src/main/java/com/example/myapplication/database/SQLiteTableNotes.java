@@ -62,7 +62,6 @@ public class SQLiteTableNotes implements TableNotes{
         return notesList;
     }
 
-
     public Note deleteNote(String title) {
         SQLiteDatabase db = database.getWritableDatabase();
         String[] args = new String[] {title};
@@ -96,6 +95,7 @@ public class SQLiteTableNotes implements TableNotes{
 
         return (Collection<Note>) notesList;
     }
+
 
     public void clearData() {
         SQLiteDatabase db = database.getWritableDatabase();
